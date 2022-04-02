@@ -38,7 +38,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           (await firebaseAuth.signInWithCredential(googleAuthCredential)).user;
 
       if (user != null) {
-        await checkUserIsExists(user);
+        await _checkUserIsExists(user);
       }
       emit(AuthenticationOnSuccess());
     } catch (_) {
@@ -57,7 +57,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  Future<void> checkUserIsExists(User firebaseUser) async {
+  Future<bool> isLoggedIn() async {
+    bool isLoggedIn = await googleSignIn.isSignedIn();
+    if (isLoggedIn && 
+      prefs.getString(FirestoreConstants.id)?.isNotEmpty == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> _checkUserIsExists(User firebaseUser) async {
     final QuerySnapshot result = await firebaseFirestore
         .collection(FirestoreConstants.pathUserCollection)
         .where(FirestoreConstants.id, isEqualTo: firebaseUser.uid)
