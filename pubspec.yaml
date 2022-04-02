@@ -23,6 +23,7 @@ dependencies:
   json_annotation: ^4.0.1
   kiwi: ^3.0.0
   shared_preferences: ^2.0.13
+  sign_button: ^2.0.2
 
 dev_dependencies:
   analyzer: ^1.7.1
@@ -36,4 +37,3 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-  
