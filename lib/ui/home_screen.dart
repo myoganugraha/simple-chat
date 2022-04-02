@@ -15,6 +15,13 @@ class HomeScreen extends StatelessWidget {
         title: const Text('iChat'),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+              onPressed: () {
+                authenticationCubit!.onSignOut();
+              },
+              icon: Icon(Icons.exit_to_app))
+        ],
       ),
       body: BlocListener<AuthenticationCubit, AuthenticationState>(
         bloc: authenticationCubit,
@@ -30,23 +37,7 @@ class HomeScreen extends StatelessWidget {
             );
           }
         },
-        child: Container(
-            child: Center(
-          child: Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  authenticationCubit!.onSignOut();
-                },
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  child: Icon(Icons.exit_to_app),
-                ),
-              )
-            ],
-          ),
-        )),
+        child: Container(child: Center()),
       ),
     );
   }
