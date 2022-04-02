@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
 import 'package:mobile_chat/di/injector.dart';
+import 'package:mobile_chat/ui/home_screen.dart';
+import 'package:mobile_chat/ui/login_screen.dart';
+import 'package:mobile_chat/ui/splash_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -18,12 +23,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        // '/': (context) => const ,
-        // '/home': (context) => const ,
-      },
-      initialRoute: '/',
+    return MultiBlocProvider(
+      providers: _getProviders(),
+      child: MaterialApp(
+        routes: {
+          '/splash': (context) => const SplashScreen(),
+          '/home': (context) => const HomeScreen(),
+          '/login': (context) => const LoginScreen(),
+        },
+        initialRoute: '/splash',
+      ),
     );
   }
+
+  List<BlocProvider> _getProviders() => [
+        BlocProvider<AuthenticationCubit>(
+            create: (context) => Injector.resolve!<AuthenticationCubit>())
+      ];
 }
