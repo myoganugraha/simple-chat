@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'injector.g.dart';
 
@@ -13,9 +13,10 @@ abstract class Injector {
   static void setup() {
     if (container == null) {
       container ??= KiwiContainer();
+      container!
+          .registerInstance(GoogleSignIn(signInOption: SignInOption.standard));
       container!.registerInstance(FirebaseAuth.instance);
       container!.registerInstance(FirebaseFirestore.instance);
-      container!.registerInstance(SharedPreferences.getInstance());
       _$Injector().configure();
     }
   }
@@ -24,17 +25,17 @@ abstract class Injector {
 
   void configure() {
     _configureFeatureModule();
+    _configureCommons();
   }
 
   // Articles Feature module
   void _configureFeatureModule() {
     _configureBlocs();
-    _configureCommons();
   }
 
   @Register.factory(AuthenticationCubit)
   void _configureBlocs();
 
-  @Register.singleton(GoogleSignIn)
+  @Register.singleton(LocalPreferences)
   void _configureCommons();
 }

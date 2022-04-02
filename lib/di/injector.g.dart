@@ -15,17 +15,12 @@ class _$Injector extends Injector {
           googleSignIn: c<GoogleSignIn>(),
           firebaseAuth: c<FirebaseAuth>(),
           firebaseFirestore: c<FirebaseFirestore>(),
-          prefs: c<SharedPreferences>()));
+          prefs: c<LocalPreferences>()));
   }
 
   @override
   void _configureCommons() {
     final KiwiContainer container = KiwiContainer();
-    container
-      ..registerSingleton((c) => GoogleSignIn(
-          signInOption: c<SignInOption>(),
-          scopes: c<List<String>>(),
-          hostedDomain: c<String>(),
-          clientId: c<String>()));
+    container..registerSingleton((c) => LocalPreferences());
   }
 }

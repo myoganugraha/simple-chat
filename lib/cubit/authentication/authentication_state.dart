@@ -13,4 +13,19 @@ class AuthenticationOnLoading extends AuthenticationState {}
 
 class AuthenticationOnSuccess extends AuthenticationState {}
 
-class AuthenticationOnError extends AuthenticationState {}
+class AuthenticationOnError extends AuthenticationState {
+  final String message;
+
+  const AuthenticationOnError(this.message);
+}
+
+class UnauthenticationOnLoading extends AuthenticationState {}
+
+class UnauthenticationOnSuccess extends AuthenticationState {}
+
+class UnauthenticationOnError extends AuthenticationState {
+  final String message;
+
+  const UnauthenticationOnError(this.message);
+}
+
