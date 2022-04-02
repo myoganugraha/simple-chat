@@ -4,6 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
+import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
+import 'package:mobile_chat/repository/user_list_repository.dart';
 
 part 'injector.g.dart';
 
@@ -25,6 +27,7 @@ abstract class Injector {
 
   void configure() {
     _configureFeatureModule();
+    _configureRepositories();
     _configureCommons();
   }
 
@@ -34,7 +37,11 @@ abstract class Injector {
   }
 
   @Register.factory(AuthenticationCubit)
+  @Register.factory(UserListCubit)
   void _configureBlocs();
+
+  @Register.singleton(UserListRepository)
+  void _configureRepositories();
 
   @Register.singleton(LocalPreferences)
   void _configureCommons();

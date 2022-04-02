@@ -15,7 +15,17 @@ class _$Injector extends Injector {
           googleSignIn: c<GoogleSignIn>(),
           firebaseAuth: c<FirebaseAuth>(),
           firebaseFirestore: c<FirebaseFirestore>(),
-          prefs: c<LocalPreferences>()));
+          prefs: c<LocalPreferences>()))
+      ..registerFactory(
+          (c) => UserListCubit(userListRepository: c<UserListRepository>()));
+  }
+
+  @override
+  void _configureRepositories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerSingleton(
+          (c) => UserListRepository(firebaseFirestore: c<FirebaseFirestore>()));
   }
 
   @override

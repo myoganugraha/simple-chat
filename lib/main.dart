@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
+import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
 import 'package:mobile_chat/di/injector.dart';
 import 'package:mobile_chat/ui/home_screen.dart';
 import 'package:mobile_chat/ui/login_screen.dart';
@@ -41,6 +42,10 @@ class MainApp extends StatelessWidget {
 
   List<BlocProvider> _getProviders() => [
         BlocProvider<AuthenticationCubit>(
-            create: (_) => Injector.resolve!<AuthenticationCubit>())
+          create: (_) => Injector.resolve!<AuthenticationCubit>(),
+        ),
+        BlocProvider<UserListCubit>(
+          create: (_) => Injector.resolve!<UserListCubit>(),
+        ),
       ];
 }
