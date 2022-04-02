@@ -24,8 +24,9 @@ class _$Injector extends Injector {
   void _configureRepositories() {
     final KiwiContainer container = KiwiContainer();
     container
-      ..registerSingleton(
-          (c) => UserListRepository(firebaseFirestore: c<FirebaseFirestore>()));
+      ..registerSingleton((c) => UserListRepository(
+          firebaseFirestore: c<FirebaseFirestore>(),
+          localPreferences: c<LocalPreferences>()));
   }
 
   @override

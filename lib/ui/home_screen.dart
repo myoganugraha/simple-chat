@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
@@ -38,35 +39,61 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: BlocListener<AuthenticationCubit, AuthenticationState>(
-          bloc: authenticationCubit,
-          listener: (context, state) {
-            if (state is UnauthenticationOnSuccess) {
-              Navigator.pushReplacementNamed(context, '/splash');
-            } else if (state is UnauthenticationOnError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Error'),
-                  backgroundColor: Colors.redAccent,
-                ),
-              );
-            }
-          },
+        bloc: authenticationCubit,
+        listener: (context, state) {
+          if (state is UnauthenticationOnSuccess) {
+            Navigator.pushReplacementNamed(context, '/splash');
+          } else if (state is UnauthenticationOnError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Error'),
+                backgroundColor: Colors.redAccent,
+              ),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 8,
+          ),
           child: BlocBuilder<UserListCubit, UserListState>(
             bloc: userListCubit,
             builder: (_, state) {
-              print('on screen ${state.users.length}');
-              return ListView(
-                children: [
-                  for (final user in state.users)
-                    Container(
-                      height: 100,
-                      margin: EdgeInsets.only(bottom: 12),
-                      color: Colors.redAccent,
-                    )
-                ],
+              return ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                itemCount: state.users.length,
+                separatorBuilder: (_, index) => const Divider(),
+                itemBuilder: (_, index) => ListTile(
+                  leading: CachedNetworkImage(
+                    width: 70,
+                    height: 70,
+                    imageUrl: state.users[index].photoUrl,
+                    imageBuilder: (_, imageProvider) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  title: Text(
+                    state.users[index].nickname,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                  ),
+                  subtitle: Text(state.users[index].email),
+                ),
               );
             },
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
