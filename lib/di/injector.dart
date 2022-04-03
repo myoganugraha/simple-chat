@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kiwi/kiwi.dart';
+
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
 import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
+import 'package:mobile_chat/repository/chat_list_repository.dart';
 import 'package:mobile_chat/repository/user_list_repository.dart';
 
 part 'injector.g.dart';
@@ -19,6 +22,7 @@ abstract class Injector {
           .registerInstance(GoogleSignIn(signInOption: SignInOption.standard));
       container!.registerInstance(FirebaseAuth.instance);
       container!.registerInstance(FirebaseFirestore.instance);
+      container!.registerInstance(FirebaseStorage.instance);
       _$Injector().configure();
     }
   }
@@ -41,6 +45,7 @@ abstract class Injector {
   void _configureBlocs();
 
   @Register.singleton(UserListRepository)
+  @Register.singleton(ChatListRepository)
   void _configureRepositories();
 
   @Register.singleton(LocalPreferences)

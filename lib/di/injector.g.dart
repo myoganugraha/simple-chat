@@ -26,6 +26,10 @@ class _$Injector extends Injector {
     container
       ..registerSingleton((c) => UserListRepository(
           firebaseFirestore: c<FirebaseFirestore>(),
+          localPreferences: c<LocalPreferences>()))
+      ..registerSingleton((c) => ChatListRepository(
+          firebaseFirestore: c<FirebaseFirestore>(),
+          firebaseStorage: c<FirebaseStorage>(),
           localPreferences: c<LocalPreferences>()));
   }
 
