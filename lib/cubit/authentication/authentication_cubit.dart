@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/constants/firestore_constants.dart';
-import 'package:mobile_chat/models/UserData.dart';
+import 'package:mobile_chat/models/user_data.dart';
 
 part 'authentication_state.dart';
 

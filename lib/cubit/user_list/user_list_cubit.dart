@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile_chat/models/UserData.dart';
+import 'package:mobile_chat/models/user_data.dart';
 import 'package:mobile_chat/repository/user_list_repository.dart';
 
 part 'user_list_state.dart';

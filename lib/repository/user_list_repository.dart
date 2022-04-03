@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/constants/firestore_constants.dart';
-import 'package:mobile_chat/models/UserData.dart';
+import 'package:mobile_chat/models/user_data.dart';
 
 class UserListRepository {
   final FirebaseFirestore firebaseFirestore;
