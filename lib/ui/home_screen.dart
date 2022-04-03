@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
-import 'package:mobile_chat/cubit/chat/chat_cubit.dart';
+import 'package:mobile_chat/cubit/chat_room/chat_room_cubit.dart';
 import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
 import 'package:mobile_chat/di/injector.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,12 +16,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthenticationCubit? authenticationCubit;
   UserListCubit? userListCubit;
-  ChatCubit? chatCubit;
+  ChatRoomCubit? chatRoomCubit;
 
   @override
   void initState() {
     authenticationCubit = Injector.resolve!<AuthenticationCubit>();
-    chatCubit = Injector.resolve!<ChatCubit>();
+    chatRoomCubit = Injector.resolve!<ChatRoomCubit>();
     userListCubit = Injector.resolve!<UserListCubit>()..fetchUsers();
     super.initState();
   }
@@ -59,8 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           ),
-          BlocListener<ChatCubit, ChatState>(
-            bloc: chatCubit,
+          BlocListener<ChatRoomCubit, ChatRoomState>(
+            bloc: chatRoomCubit,
             listener: (context, state) {
               if (state is InitChatOnSuccess) {
                 Navigator.pushNamed(context, '/chat');
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 itemBuilder: (_, index) => ListTile(
                   onTap: () {
-                    chatCubit!.initChat(
+                    chatRoomCubit!.initChat(
                       state.users[index].id,
                       state.users[index],
                     );

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
 import 'package:mobile_chat/cubit/chat/chat_cubit.dart';
+import 'package:mobile_chat/cubit/chat_room/chat_room_cubit.dart';
 import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
 import 'package:mobile_chat/di/injector.dart';
 import 'package:mobile_chat/ui/chat_screen.dart';
@@ -34,9 +35,9 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         routes: {
           '/splash': (context) => const SplashScreen(),
-          '/home': (context) => HomeScreen(),
+          '/home': (context) => const HomeScreen(),
           '/login': (context) => LoginScreen(),
-          '/chat': (context) => ChatScreen(),
+          '/chat': (context) => const ChatScreen(),
         },
         initialRoute: '/splash',
       ),
@@ -52,6 +53,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<ChatCubit>(
           create: (_) => Injector.resolve!<ChatCubit>(),
+        ),
+        BlocProvider<ChatRoomCubit>(
+          create: (_) => Injector.resolve!<ChatRoomCubit>(),
         ),
       ];
 }

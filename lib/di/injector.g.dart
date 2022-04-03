@@ -18,10 +18,11 @@ class _$Injector extends Injector {
           prefs: c<LocalPreferences>()))
       ..registerFactory(
           (c) => UserListCubit(userListRepository: c<UserListRepository>()))
-      ..registerSingleton((c) => ChatCubit(
-          chatListRepository: c<ChatListRepository>(),
-          firebaseAuth: c<FirebaseAuth>(),
-          prefs: c<LocalPreferences>()));
+      ..registerFactory(
+          (c) => ChatCubit(chatListRepository: c<ChatListRepository>()))
+      ..registerSingleton((c) => ChatRoomCubit(
+          prefs: c<LocalPreferences>(),
+          chatListRepository: c<ChatListRepository>()));
   }
 
   @override
@@ -40,6 +41,6 @@ class _$Injector extends Injector {
   @override
   void _configureCommons() {
     final KiwiContainer container = KiwiContainer();
-    container..registerSingleton((c) => LocalPreferences());
+    container.registerSingleton((c) => LocalPreferences());
   }
 }
