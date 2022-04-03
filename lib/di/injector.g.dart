@@ -18,7 +18,7 @@ class _$Injector extends Injector {
           prefs: c<LocalPreferences>()))
       ..registerFactory(
           (c) => UserListCubit(userListRepository: c<UserListRepository>()))
-      ..registerFactory((c) => ChatCubit(
+      ..registerSingleton((c) => ChatCubit(
           chatListRepository: c<ChatListRepository>(),
           firebaseAuth: c<FirebaseAuth>(),
           prefs: c<LocalPreferences>()));

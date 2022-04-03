@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black87,
         title: const Text('iChat'),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -74,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-        child: Padding(
+        child: Container(
+          color: Colors.black87,
           padding: const EdgeInsets.symmetric(
             horizontal: 10,
             vertical: 8,
@@ -85,14 +87,19 @@ class _HomeScreenState extends State<HomeScreen> {
               return ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 itemCount: state.users.length,
-                separatorBuilder: (_, index) => const Divider(),
+                separatorBuilder: (_, index) => const Divider(
+                  color: Colors.grey,
+                ),
                 itemBuilder: (_, index) => ListTile(
                   onTap: () {
-                    chatCubit!.initChat(state.users[index].id);
+                    chatCubit!.initChat(
+                      state.users[index].id,
+                      state.users[index],
+                    );
                   },
                   leading: CachedNetworkImage(
-                    width: 70,
-                    height: 70,
+                    width: 60,
+                    height: 60,
                     imageUrl: state.users[index].photoUrl,
                     imageBuilder: (_, imageProvider) {
                       return Container(
@@ -110,9 +117,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
-                  subtitle: Text(state.users[index].email),
+                  subtitle: Text(
+                    state.users[index].email,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               );
             },

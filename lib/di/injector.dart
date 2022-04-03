@@ -43,7 +43,7 @@ abstract class Injector {
 
   @Register.factory(AuthenticationCubit)
   @Register.factory(UserListCubit)
-  @Register.factory(ChatCubit)
+  @Register.singleton(ChatCubit)
   void _configureBlocs();
 
   @Register.singleton(UserListRepository)

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/constants/firestore_constants.dart';
 import 'package:mobile_chat/models/message.dart';
+import 'package:mobile_chat/models/user_data.dart';
 import 'package:mobile_chat/repository/chat_list_repository.dart';
 
 part 'chat_state.dart';
@@ -22,7 +23,7 @@ class ChatCubit extends Cubit<ChatState> {
     required this.prefs,
   }) : super(ChatInitial());
 
-  void initChat(String recipientId) {
+  void initChat(String recipientId, UserData recipient) {
     try {
       emit(InitChatOnLoading());
       String? chatId;
@@ -37,7 +38,7 @@ class ChatCubit extends Cubit<ChatState> {
         senderId,
         {FirestoreConstants.chattingWith: chatId},
       );
-      emit(InitChatOnSuccess());
+      emit(InitChatOnSuccess(chatId, recipient));
     } catch (e) {
       emit(InitChatOnError(e.toString()));
     }
