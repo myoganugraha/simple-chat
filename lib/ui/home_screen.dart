@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
+import 'package:mobile_chat/cubit/chat/chat_cubit.dart';
 import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
 import 'package:mobile_chat/di/injector.dart';
 
@@ -15,10 +16,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   AuthenticationCubit? authenticationCubit;
   UserListCubit? userListCubit;
+  ChatCubit? chatCubit;
 
   @override
   void initState() {
     authenticationCubit = Injector.resolve!<AuthenticationCubit>();
+    chatCubit = Injector.resolve!<ChatCubit>();
     userListCubit = Injector.resolve!<UserListCubit>()..fetchUsers();
     super.initState();
   }
@@ -35,23 +38,42 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 authenticationCubit!.onSignOut();
               },
-              icon: Icon(Icons.exit_to_app))
+              icon: const Icon(Icons.exit_to_app))
         ],
       ),
-      body: BlocListener<AuthenticationCubit, AuthenticationState>(
-        bloc: authenticationCubit,
-        listener: (context, state) {
-          if (state is UnauthenticationOnSuccess) {
-            Navigator.pushReplacementNamed(context, '/splash');
-          } else if (state is UnauthenticationOnError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Error'),
-                backgroundColor: Colors.redAccent,
-              ),
-            );
-          }
-        },
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthenticationCubit, AuthenticationState>(
+            bloc: authenticationCubit,
+            listener: (context, state) {
+              if (state is UnauthenticationOnSuccess) {
+                Navigator.pushReplacementNamed(context, '/splash');
+              } else if (state is UnauthenticationOnError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Error'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+              }
+            },
+          ),
+          BlocListener<ChatCubit, ChatState>(
+            bloc: chatCubit,
+            listener: (context, state) {
+              if (state is InitChatOnSuccess) {
+                Navigator.pushNamed(context, '/chat');
+              } else if (state is InitChatOnError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Failed to init chat'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+              }
+            },
+          ),
+        ],
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 10,
@@ -65,6 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: state.users.length,
                 separatorBuilder: (_, index) => const Divider(),
                 itemBuilder: (_, index) => ListTile(
+                  onTap: () {
+                    chatCubit!.initChat(state.users[index].id);
+                  },
                   leading: CachedNetworkImage(
                     width: 70,
                     height: 70,
