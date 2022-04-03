@@ -16,7 +16,7 @@ class UserListCubit extends Cubit<UserListState> {
 
   void fetchUsers() async {
     _userListSubscription?.cancel();
-    _userListSubscription = userListRepository.userList().listen((users) {
+    _userListSubscription = userListRepository.streamUserList().listen((users) {
       emit(state.copyWith(users: users));
     });
   }

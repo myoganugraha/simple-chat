@@ -12,7 +12,7 @@ class UserListRepository {
     required this.localPreferences,
   });
 
-  Stream<List<UserData>> userList() {
+  Stream<List<UserData>> streamUserList() {
     final userCollection = firebaseFirestore
         .collection(FirestoreConstants.pathUserCollection)
         .where(
