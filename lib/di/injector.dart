@@ -6,6 +6,7 @@ import 'package:kiwi/kiwi.dart';
 
 import 'package:mobile_chat/common/local_preferences.dart';
 import 'package:mobile_chat/cubit/authentication/authentication_cubit.dart';
+import 'package:mobile_chat/cubit/chat/chat_cubit.dart';
 import 'package:mobile_chat/cubit/user_list/user_list_cubit.dart';
 import 'package:mobile_chat/repository/chat_list_repository.dart';
 import 'package:mobile_chat/repository/user_list_repository.dart';
@@ -42,6 +43,7 @@ abstract class Injector {
 
   @Register.factory(AuthenticationCubit)
   @Register.factory(UserListCubit)
+  @Register.factory(ChatCubit)
   void _configureBlocs();
 
   @Register.singleton(UserListRepository)
