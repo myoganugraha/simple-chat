@@ -17,10 +17,12 @@ dependencies:
   equatable: ^2.0.3
   firebase_auth: ^3.3.12
   firebase_core: ^1.14.0
+  firebase_messaging: ^11.2.12
   firebase_storage: ^10.2.10
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_local_notifications: ^9.4.0
   google_sign_in: ^5.2.4
   intl: ^0.17.0
   json_annotation: ^4.0.1
